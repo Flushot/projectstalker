@@ -1,0 +1,9 @@
+comments @comments do |comment|
+  id comment.id if comment
+  user do
+    id comment.user.id if comment
+    display_name comment.user.display_name if comment
+  end
+  message comment.message if comment
+  updated_at comment.updated_at.utc.iso8601 if comment
+end

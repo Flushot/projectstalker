@@ -12,7 +12,7 @@ follows @project.follows do |follow|
     display_name follow.user.display_name if follow
   end
 end
-comments @project.comments do |comment|
+comments @project.comments.order('updated_at DESC') do |comment|
   id comment.id if comment
   user do
     id comment.user.id if comment

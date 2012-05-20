@@ -1,0 +1,7 @@
+id @comment.id
+user do
+  id @comment.user.id
+  display_name @comment.user.display_name
+end
+message @comment.message
+updated_at @comment.updated_at.utc.iso8601

@@ -9,10 +9,14 @@ class ProjectsController < ApplicationController
       select  p.id,
               p.summary, 
               (select count(*) from follows where project_id = p.id) follow_count, 
+              u.latitude,
+              u.longitude,
               u.dist
         from projects p
         inner join (
           select id,
+                 latitude,
+                 longitude,
                  acos(sin(latitude) * cos(#{current_user.latitude}) + 
                       cos(latitude) * cos(#{current_user.latitude}) *
                       cos(longitude - #{current_user.longitude})) * 

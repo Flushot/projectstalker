@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
           from users
         ) u on u.id = p.owner_id  
         where u.dist <= #{@radius * @kpm}
-        order by u.dist desc
+        order by u.dist
     SQL
   end
 

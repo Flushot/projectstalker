@@ -13,12 +13,14 @@ class Project < ActiveRecord::Base
                       :length  => { :maximum => 160 }
 
   has_attached_file :photo,
-    :url => "/logos/projects/:id_:style.:extension",
-    :default_url => "/logos/projects/missing.png",
+    :url => '/logos/projects/:id_:style.:extension',
+    :default_url => '/logos/projects/missing.png',
     :styles => {
-      :thumb => '50x50',
+      :thumb => '32x32',
+      :large => '70x70'
     },
     :convert_options => {
-      :thumb => "-background white -compose Copy -gravity center -extent 50x50",
+      :thumb => '-background white -compose Copy -gravity center -extent 32x32',
+      :large => '-background white -compose Copy -gravity center -extend 70x70'
     }
 end

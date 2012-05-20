@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rest-client version="2.4"><request><http-version>1.1</http-version><http-follow-redirects>true</http-follow-redirects><URL>http://127.0.0.1:3000/sessions</URL><method>POST</method><headers><header key="Content-Type" value="application/json"/><header key="Accept" value="application/json"/></headers><body content-type="text/plain" charset="UTF-8">{"email": "flushot@gmail.com", "password": "gr0wya!"}</body></request></rest-client>

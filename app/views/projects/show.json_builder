@@ -1,6 +1,5 @@
 id @project.id
 summary @project.summary
-details @project.details
 thumb @project.photo(:thumb)
 owner do
   id @project.owner.id

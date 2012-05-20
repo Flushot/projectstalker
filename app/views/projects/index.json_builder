@@ -1,10 +1,36 @@
 projects @projects do |project|
   id project['id'].to_i
-  summary project['summary']
-  thumb Project.find(project['id']).photo(:thumb)
+  summary truncate(project['summary'], :length => 50)
+  summary_full project['summary']
+  thumb get_project(project).photo(:thumb)
+  large get_project(project).photo(:large)
+  owner do
+    id get_project(project).owner.id
+    display_name get_project(project).owner.display_name
+  end
+  follows get_project(project).follows do |follow|
+    user do
+      id follow.user.id if follow
+      display_name follow.user.display_name if follow
+    end
+  end
+  comments get_project(project).comments.order('updated_at DESC') do |comment|
+    id comment.id if comment
+    user do
+      id comment.user.id if comment
+      display_name comment.user.display_name if comment
+    end
+    message comment.message if comment
+    updated_at comment.updated_at.utc.iso8601 if comment
+  end
+  tags get_project(project).tags do |tag|
+    id tag.id if tag
+    name tag.name if tag
+  end
   follow_count project['follow_count'].to_i
-  updated_at Project.find(project['id']).updated_at.utc.iso8601
+  updated_at get_project(project).updated_at.utc.iso8601
   distance (project['dist'].to_f / @kpm)
   latitude project['latitude'].to_f
   longitude project['longitude'].to_f
+  updated_at get_project(project).updated_at.utc.iso8601
 end

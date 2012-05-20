@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120520045614) do
+ActiveRecord::Schema.define(:version => 20120520090230) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(:version => 20120520045614) do
 
   create_table "projects", :force => true do |t|
     t.string   "summary",                                 :null => false
-    t.text     "details"
     t.integer  "owner_id",                                :null => false
     t.boolean  "active",                :default => true, :null => false
     t.string   "photo_file_name"

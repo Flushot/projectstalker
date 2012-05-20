@@ -19,11 +19,8 @@ gem 'will_paginate' # Paging support for ActiveRecord models
 #
 # Service integration
 #
-gem 'nokogiri' # XML parser (used by LinkedIn integration)
-gem 'linkedin' # LinkedIn integration
-gem 'twitter' # Twitter integration
-gem 'oauth' # LinkedIn and Twitter OAuth authentication (considering OmniAuth as replacement)
-gem 'htmlentities' # HTML codec
+gem 'omniauth'
+gem 'rest-client'
 
 #
 # Javascript libraries

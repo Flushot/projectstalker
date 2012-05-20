@@ -33,13 +33,15 @@ class User < ActiveRecord::Base
   #                    :allow_blank => true
 
   has_attached_file :photo,
-    :url => "/logos/users/:id_:style.:extension",
-    :default_url => "/logos/users/missing.png",
+    :url => '/logos/users/:id_:style.:extension',
+    :default_url => '/logos/users/missing.png',
     :styles => {
-      :thumb => '50x50',
+      :thumb => '32x32',
+      :large => '70x70'
     },
     :convert_options => {
-      :thumb => "-background white -compose Copy -gravity center -extent 50x50",
+      :thumb => '-background white -compose Copy -gravity center -extent 32x32',
+      :large => '-background white -compose Copy -gravity center -extend 70x70'
     }
 
   def display_name

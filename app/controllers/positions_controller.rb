@@ -1,9 +1,8 @@
 class PositionsController < ApplicationController
-  #before_filter :authorize
+  before_filter :authorize
 
   def create
-    @user = User.find(2)
-    #@user = current_user
+    @user = current_user
 
     @user.latitude = params[:latitude]
     @user.longitude = params[:longitude]

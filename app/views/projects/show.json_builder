@@ -1,7 +1,28 @@
-projects @projects do |project|
-  id project.id
-  summary project.summary
-  thumb project.photo(:thumb)
-  url project_path(project)
-  follows project.follows.count
+id @project.id
+summary @project.summary
+details @project.details
+thumb @project.photo(:thumb)
+owner do
+  id @project.owner.id
+  display_name @project.owner.display_name
 end
+follows @project.follows do |follow|
+  user do
+    id follow.user.id if follow
+    display_name follow.user.display_name if follow
+  end
+end
+comments @project.comments do |comment|
+  id comment.id if comment
+  user do
+    id comment.user.id if comment
+    display_name comment.user.display_name if comment
+  end
+  message comment.message if comment
+  updated_at comment.updated_at.utc.iso8601 if comment
+end
+tags @project.tags do |tag|
+  id tag.id if tag
+  name tag.name if tag
+end
+updated_at @project.updated_at.utc.iso8601

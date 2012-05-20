@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :mailer_set_url_options
-  protect_from_forgery
+  #protect_from_forgery
 
   class AccessDenied < StandardError; end
   rescue_from AccessDenied, :with => :access_denied

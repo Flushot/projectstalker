@@ -1,46 +1,63 @@
 class ProjectsController < ApplicationController
+  before_filter :authorize
+  
   def index
-    @projects = Project.all
+    @kpm = 1.609344 # Kilometers per mile
+    @radius = Float(params[:radius] || 5.0)
+    
+    @projects = Project.connection.select_all <<-SQL
+      select  p.id,
+              p.summary, 
+              (select count(*) from follows where project_id = p.id) follow_count, 
+              u.dist
+        from projects p
+        inner join (
+          select id,
+                 acos(sin(latitude) * cos(#{current_user.latitude}) + 
+                      cos(latitude) * cos(#{current_user.latitude}) *
+                      cos(longitude - #{current_user.longitude})) * 
+                      15.7 dist
+          from users
+        ) u on u.id = p.owner_id  
+        where u.dist <= #{@radius * @kpm}
+        order by u.dist desc
+    SQL
+    logger.debug @projects.inspect
+
+    #@projects = Project.all
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @projects }
+      format.json
     end
   end
 
   def show
     @project = Project.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @project }
+      format.json
     end
   end
 
   def create
     @project = Project.new(params[:project])
-
+    @project.owner = current_user
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render json: @project, status: :created, location: @project }
+        format.json { render 'show' }
       else
-        format.html { render action: "new" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { head :status => :unprocessable_entity }
       end
     end
   end
 
   def update
     @project = Project.find(params[:id])
-
+    @project.owner = current_user
     respond_to do |format|
       if @project.update_attributes(params[:project])
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { head :status => :unprocessable_entity }
       end
     end
   end
@@ -48,9 +65,7 @@ class ProjectsController < ApplicationController
   def destroy
     @project = Project.find(params[:id])
     @project.destroy
-
     respond_to do |format|
-      format.html { redirect_to projects_url }
       format.json { head :no_content }
     end
   end

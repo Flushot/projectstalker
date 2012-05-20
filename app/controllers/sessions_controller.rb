@@ -1,13 +1,15 @@
 class SessionsController < ApplicationController
   respond_to :json, :html
-  layout nil
-  
-  skip_before_filter :authorize
+  before_filter :authorize, :only => [:show, :destroy]
 
   def show
-    @user = current_user || {}
+    @user = current_user
     respond_to do |format|
-      format.json
+      format.json do
+        if !@user
+          head :status => :unauthorized
+        end
+      end
     end
   end
 

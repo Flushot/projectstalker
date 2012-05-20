@@ -1,0 +1,8 @@
+projects @projects do |project|
+  id project['id'].to_i
+  summary project['summary']
+  thumb Project.find(project['id']).photo(:thumb)
+  follow_count project['follow_count'].to_i
+  updated_at Project.find(project['id']).updated_at.utc.iso8601
+  distance (project['dist'].to_f / @kpm)
+end

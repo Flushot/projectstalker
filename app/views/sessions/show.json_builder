@@ -13,3 +13,5 @@ projects @user.projects.all do |project|
   summary project.summary
   role (project.owner == @user) ? 'owner' : 'participant'
 end
+latitude @user.latitude
+longitude @user.longitude

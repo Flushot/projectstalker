@@ -1,0 +1,4 @@
+occupations @occupations do |occupation|
+  id occupation.id
+  name occupation.name
+end

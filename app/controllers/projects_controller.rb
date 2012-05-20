@@ -4,7 +4,6 @@ class ProjectsController < ApplicationController
   def index
     @kpm = 1.609344 # Kilometers per mile
     @radius = Float(params[:radius] || 5.0)
-    
     @projects = Project.connection.select_all <<-SQL
       select  p.id,
               p.summary, 
@@ -26,51 +25,43 @@ class ProjectsController < ApplicationController
         where u.dist <= #{@radius * @kpm}
         order by u.dist desc
     SQL
-    logger.debug @projects.inspect
-
-    #@projects = Project.all
-
-    respond_to do |format|
-      format.json
-    end
   end
 
   def show
     @project = Project.find(params[:id])
-    respond_to do |format|
-      format.json
-    end
   end
 
   def create
     @project = Project.new(params[:project])
     @project.owner = current_user
-    respond_to do |format|
-      if @project.save
-        format.json { render 'show' }
-      else
-        format.json { head :status => :unprocessable_entity }
-      end
+    if @project.save
+      render 'show'
+    else
+      head :status => :unprocessable_entity
     end
   end
 
   def update
     @project = Project.find(params[:id])
-    @project.owner = current_user
-    respond_to do |format|
+    if @project.owner == current_user
       if @project.update_attributes(params[:project])
-        format.json { head :no_content }
+        head :no_content
       else
-        format.json { head :status => :unprocessable_entity }
+        head :status => :unprocessable_entity
       end
+    else
+      head :status => :forbidden
     end
   end
 
   def destroy
     @project = Project.find(params[:id])
-    @project.destroy
-    respond_to do |format|
-      format.json { head :no_content }
+    if @project.owner == current_user
+      @project.active = false
+      @project.save!
+      head :no_content
+    else
+      head :status => :forbidden
     end
   end
 end

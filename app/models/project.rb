@@ -1,4 +1,6 @@
 class Project < ActiveRecord::Base
+  default_scope where(:active => true)
+  
   belongs_to :owner, :class_name => 'User'
   has_many :follows
   has_many :comments

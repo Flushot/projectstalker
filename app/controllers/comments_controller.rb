@@ -1,10 +1,8 @@
 class CommentsController < ApplicationController
   before_filter :get_project
-  respond_to :json
 
   def index
     @comments = Comment.where(:project_id => @project).order('updated_at DESC')
-    respond_with(@comments)
   end
 
   def create

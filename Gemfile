@@ -1,38 +1,58 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
+source 'http://gems.github.com'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.2'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+#
+# Misc
+#
+gem 'json_builder' # JSON builder
 
-gem 'sqlite3'
+#
+# Models/database
+#
+gem 'pg' # PostgreSQL database
+gem "paperclip", "~> 3.0.0" # Photo and file attachments
+gem 'will_paginate' # Paging support for ActiveRecord models
+#gem 'georuby'
 
+#
+# Service integration
+#
+gem 'nokogiri' # XML parser (used by LinkedIn integration)
+gem 'linkedin' # LinkedIn integration
+gem 'twitter' # Twitter integration
+gem 'oauth' # LinkedIn and Twitter OAuth authentication (considering OmniAuth as replacement)
+gem 'htmlentities' # HTML codec
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+#
+# Javascript libraries
+#
+gem 'jquery-rails' # jQuery support (replaces Prototype)
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platform => :ruby
-
-  gem 'uglifier', '>= 1.0.3'
+#
+# Production-specific gems
+#
+group :production do
+  gem 'unicorn' if RUBY_PLATFORM.downcase.include?("linux")
+  #gem 'capistrano' # Deployment
 end
 
-gem 'jquery-rails'
+#
+# Test-specific gems
+#
+group :test do
+  gem 'minitest'
+  gem 'turn', :require => false # Pretty print test output
+end
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+#
+# Gems used only for assets and not required
+# in production environments by default.
+#
+group :assets do
+  gem 'sass-rails', '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux") # https://github.com/sstephenson/execjs#readme
+  gem 'uglifier', '>= 1.0.3' # Replaces default closure-compiler
+end

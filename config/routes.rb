@@ -1,4 +1,14 @@
 ProjectStalker::Application.routes.draw do
+  resources :comments
+
+  resources :projects, :only => [:index, :show, :create, :update, :destroy]
+  resources :users, :only => [:show, :create, :update]
+  resources :occupations, :only => [:index]
+  resources :sessions, :only => [:show, :create, :destroy]
+
+  match "logout" => "sessions#destroy"
+  match "profile" => "users#show"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,7 @@
+projects @projects do |project|
+  id project.id
+  summary project.summary
+  thumb project.photo(:thumb)
+  url project_path(project)
+  follows project.follows.count
+end

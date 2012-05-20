@@ -1,0 +1,12 @@
+id @user.id
+display_name @user.display_name
+title @user.title
+occupation do
+  id @user.occupation.id if @user.occupation
+  name @user.occupation.name if @user.occupation
+end
+projects @user.projects.all do |project|
+  id project.id
+  summary project.summary
+  role (project.owner == @user) ? 'owner' : 'participant'
+end

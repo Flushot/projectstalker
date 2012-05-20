@@ -2,6 +2,7 @@ ProjectStalker::Application.routes.draw do
   resources :positions, :only => [:create]
   resources :projects, :only => [:index, :show, :create, :update, :destroy] do
     resources :comments, :only => [:index, :show, :create, :update, :destroy]
+    resources :follows, :only => [:create, :destroy]
   end
   resources :users, :only => [:show, :create, :update]
   resources :occupations, :only => [:index]

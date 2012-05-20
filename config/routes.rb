@@ -1,6 +1,6 @@
 ProjectStalker::Application.routes.draw do
   resources :comments
-
+  resources :positions, :only => [:create]
   resources :projects, :only => [:index, :show, :create, :update, :destroy]
   resources :users, :only => [:show, :create, :update]
   resources :occupations, :only => [:index]

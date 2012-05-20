@@ -1,0 +1,4 @@
+tags @tags do |tag|
+  id tag.id
+  name tag.name
+end

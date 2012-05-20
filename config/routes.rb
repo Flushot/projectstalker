@@ -5,6 +5,7 @@ ProjectStalker::Application.routes.draw do
   resources :users, :only => [:show, :create, :update]
   resources :occupations, :only => [:index]
   resources :sessions, :only => [:show, :create, :destroy]
+  resources :tags, :only => [:index]
 
   match "logout" => "sessions#destroy"
   match "profile" => "users#show"

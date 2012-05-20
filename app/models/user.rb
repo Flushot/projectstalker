@@ -19,12 +19,12 @@ class User < ActiveRecord::Base
                     :uniqueness => { :case_sensitive => false }
 
   validates :first_name, :presence => true,
-                         :length  => { :maximum => 50 }
+                         :length   => { :maximum => 50 }
 
   validates :last_name, :presence => true,
                         :length   => { :maximum => 50 }
 
-  validates :password, :allow_blank  => true,
+  validates :password, :presence     => true,
                        :confirmation => true,
                        :length       => { :within => 6..40 },
                        :if           => :password_validation_required?

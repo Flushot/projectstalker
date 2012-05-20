@@ -4,10 +4,6 @@ class SessionsController < ApplicationController
   
   skip_before_filter :authorize
 
-  def new
-    render :new, :layout => nil if request.xhr?
-  end
-
   def show
     @user = current_user || {}
     respond_to do |format|

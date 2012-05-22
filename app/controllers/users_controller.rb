@@ -16,15 +16,13 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user == current_user
-      # User is current user
-      if @user.update_attributes(params[:user])
-        head :no_content
-      else
-        head :status => :unprocessable_entity
-      end
+    raise ApplicationController::AccessDenied \
+      unless @user == current_user
+
+    if @user.update_attributes(params[:user])
+      head :no_content
     else
-      head :status => :forbidden
+      head :status => :unprocessable_entity
     end
   end
 end

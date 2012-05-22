@@ -18,27 +18,23 @@ class CommentsController < ApplicationController
 
   def update
     @comment = Comment.find(params[:id])
-    if @comment.user == current_user
-      # User owns comment
-      if @comment.update_attributes(params[:comment])
-        head :no_content
-      else
-        head :status => :unprocessable_entity
-      end
+    raise ApplicationController::AccessDenied \
+      unless @comment.user == current_user
+
+    if @comment.update_attributes(params[:comment])
+      head :no_content
     else
-      head :status => :forbidden
+      head :status => :unprocessable_entity
     end
   end
 
   def destroy
     @comment = Comment.find(params[:id])
-    if @comment.user == current_user
-      # User owns comment
-      @comment.destroy
-      head :no_content
-    else
-      head :status => :forbidden
-    end
+    raise ApplicationController::AccessDenied \
+      unless @comment.user == current_user
+
+    @comment.destroy
+    head :no_content
   end
 
 private

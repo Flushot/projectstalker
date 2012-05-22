@@ -14,13 +14,11 @@ class FollowsController < ApplicationController
 
   def destroy
     @follow = Follow.find(params[:id])
-    if @follow.user == current_user
-      # User owns follow
-      @follow.destroy
-      head :no_content
-    else
-      head :status => :forbidden
-    end
+    raise ApplicationController::AccessDenied \
+      unless @follow.user == current_user
+
+    @follow.destroy
+    head :no_content
   end
 
 private

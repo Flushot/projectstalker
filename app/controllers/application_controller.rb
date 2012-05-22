@@ -18,7 +18,8 @@ protected
   end
 
   def require_admin_role
-    raise ApplicationController::AccessDenied unless current_user && current_user.has_role('admin')
+    raise ApplicationController::AccessDenied \
+      unless current_user && current_user.has_role('admin')
   end
 
 private

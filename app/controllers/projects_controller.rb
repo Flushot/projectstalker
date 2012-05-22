@@ -2,8 +2,9 @@ class ProjectsController < ApplicationController
   before_filter :authorize
   
   def index
+    # TODO: Use kilometer or mile units depending on country
     @kpm = 1.609344 # Kilometers per mile
-    @radius = Float(params[:radius] || 5.0)
+    @radius = Float(params[:radius] || 5.0) # Miles
     @projects = Project.connection.select_all <<-SQL
       select  p.id,
               p.summary, 
@@ -43,25 +44,23 @@ class ProjectsController < ApplicationController
 
   def update
     @project = Project.find(params[:id])
-    if @project.owner == current_user
-      if @project.update_attributes(params[:project])
-        head :no_content
-      else
-        head :status => :unprocessable_entity
-      end
+    raise ApplicationController::AccessDenied \
+      unless @project.owner == current_user
+
+    if @project.update_attributes(params[:project])
+      head :no_content
     else
-      head :status => :forbidden
+      head :status => :unprocessable_entity
     end
   end
 
   def destroy
     @project = Project.find(params[:id])
-    if @project.owner == current_user
-      @project.active = false
-      @project.save!
-      head :no_content
-    else
-      head :status => :forbidden
-    end
+    raise ApplicationController::AccessDenied \
+      unless @project.owner == current_user
+
+    @project.active = false
+    @project.save!
+    head :no_content
   end
 end

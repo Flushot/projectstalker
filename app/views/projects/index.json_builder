@@ -1,6 +1,6 @@
 projects @projects do |project|
   id project['id'].to_i
-  summary truncate(project['summary'], :length => 50)
+  summary truncate(project['summary'], :length => 140)
   summary_full project['summary']
   thumb get_project(project).photo(:thumb)
   large get_project(project).photo(:large)
